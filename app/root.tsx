@@ -4,9 +4,11 @@ import {
   Links,
   LiveReload,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   useLoaderData,
+  useNavigation,
 } from "@remix-run/react";
 import { LinksFunction, json, redirect } from "@remix-run/node";
 import appStylesHref from "./app.css";
@@ -28,6 +30,7 @@ export const links: LinksFunction = () => [
 
 export default function App() {
   const { contacts } = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
 
   return (
     <html>
@@ -58,7 +61,12 @@ export default function App() {
             <ul>
               {contacts.map((contact) => (
                 <li key={contact.id}>
-                  <Link to={`/contacts/${contact.id}`}>
+                  <NavLink
+                    className={({ isActive, isPending }) =>
+                      isActive ? "active" : isPending ? "pending" : ""
+                    }
+                    to={`/contacts/${contact.id}`}
+                  >
                     {contact.first || contact.last ? (
                       <>
                         {contact.first} {contact.last}
@@ -67,13 +75,16 @@ export default function App() {
                       <i>No Name</i>
                     )}{" "}
                     {contact.favorite && <span>*</span>}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
           </nav>
         </div>
-        <div id="detail">
+        <div
+          id="detail"
+          className={navigation.state === "loading" ? "loading" : ""}
+        >
           <Outlet />
         </div>
         <Scripts />
