@@ -7,7 +7,7 @@ import {
   Scripts,
   useLoaderData,
 } from "@remix-run/react";
-import { json } from "@remix-run/node";
+import { LinksFunction, json } from "@remix-run/node";
 
 import appStylesHref from "./app.css";
 
@@ -18,10 +18,12 @@ export const loader = async () => {
   return json({ contacts });
 };
 
-export const links = () => [{ rel: "stylesheet", href: appStylesHref }];
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: appStylesHref },
+];
 
 export default function App() {
-  const { contacts } = useLoaderData();
+  const { contacts } = useLoaderData<typeof loader>();
 
   return (
     <html>
@@ -46,7 +48,7 @@ export default function App() {
                   ) : (
                     <i>No Name</i>
                   )}{" "}
-                  {contact.favorites && <span>*</span>}
+                  {contact.favorite && <span>*</span>}
                 </Link>
               </li>
             ))}
