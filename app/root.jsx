@@ -5,13 +5,24 @@ import {
   Meta,
   Outlet,
   Scripts,
+  useLoaderData,
 } from "@remix-run/react";
+import { json } from "@remix-run/node";
 
 import appStylesHref from "./app.css";
+
+import { getContacts } from "./data.js";
+
+export const loader = async () => {
+  const contacts = await getContacts();
+  return json({ contacts });
+};
 
 export const links = () => [{ rel: "stylesheet", href: appStylesHref }];
 
 export default function App() {
+  const { contacts } = useLoaderData();
+
   return (
     <html>
       <head>
@@ -22,19 +33,29 @@ export default function App() {
       <body>
         <Link to="/">Top</Link>
         <h1>Hello world!</h1>
-        <Outlet />
 
+        <nav>
+          <ul>
+            {contacts.map((contact) => (
+              <li key={contact.id}>
+                <Link to={`/contacts/${contact.id}`}>
+                  {contact.first || contact.last ? (
+                    <>
+                      {contact.first} {contact.last}
+                    </>
+                  ) : (
+                    <i>No Name</i>
+                  )}{" "}
+                  {contact.favorites && <span>*</span>}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <Outlet />
         <Scripts />
         <LiveReload />
-
-        <ul>
-          <li>
-            <Link to="/contacts/1">Alice</Link>
-          </li>
-          <li>
-            <Link to="/contacts/2">Bob</Link>
-          </li>
-        </ul>
       </body>
     </html>
   );
