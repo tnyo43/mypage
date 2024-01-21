@@ -1,5 +1,9 @@
 import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
 
+import appStylesHref from "./app.css";
+
+export const links = () => [{ rel: "stylesheet", href: appStylesHref }];
+
 export default function App() {
   return (
     <html>
@@ -14,6 +18,8 @@ export default function App() {
 
         <Scripts />
         <LiveReload />
+
+        <button>click!</button>
       </body>
     </html>
   );
