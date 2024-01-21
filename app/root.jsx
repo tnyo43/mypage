@@ -1,4 +1,11 @@
-import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
+import {
+  Link,
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+} from "@remix-run/react";
 
 import appStylesHref from "./app.css";
 
@@ -13,13 +20,21 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <Link to="/">Top</Link>
         <h1>Hello world!</h1>
         <Outlet />
 
         <Scripts />
         <LiveReload />
 
-        <button>click!</button>
+        <ul>
+          <li>
+            <Link to="/contacts/1">Alice</Link>
+          </li>
+          <li>
+            <Link to="/contacts/2">Bob</Link>
+          </li>
+        </ul>
       </body>
     </html>
   );
