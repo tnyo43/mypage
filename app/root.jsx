@@ -1,4 +1,4 @@
-import { Links, Meta, Outlet, Scripts } from "@remix-run/react";
+import { Links, LiveReload, Meta, Outlet, Scripts } from "@remix-run/react";
 
 export default function App() {
   return (
@@ -9,10 +9,11 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <h1>Hello world!bbb</h1>
+        <h1>Hello world!</h1>
         <Outlet />
 
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );
